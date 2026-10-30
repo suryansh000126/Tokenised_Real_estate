@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokenProp — Public Transparency & Auto-TDS Ledger</title>
+  <meta name="description" content="Real-time public on-chain auditability: rental yield deposits, automatic TDS remittance to government wallets, insurance reserves, and live transactions.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/futuristic-theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+</head>
+<body>
+
+  <div class="cyber-canvas-bg"></div>
+  <div class="cyber-grid-overlay"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">🏛️</span> TokenProp
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="dao.html">Governance</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="transparency.html" class="active">Transparency</a></li>
+        <li><a href="learn.html">Learn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-wallet" id="wallet-btn" onclick="connectWallet()">
+          <span class="wallet-dot"></span> Connect Wallet
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Marquee Ticker -->
+  <div class="cyber-ticker-wrap">
+    <div class="cyber-ticker-track" id="global-ticker">
+      <div class="ticker-item"><span class="pulse-beacon pulse-beacon--green"></span> <strong>NETWORK:</strong> Polygon Amoy Testnet</div>
+      <div class="ticker-item">🏛️ <strong>TOTAL TDS REMITTED:</strong> 14,850.00 POL</div>
+      <div class="ticker-item">📈 <strong>CUMULATIVE RENT:</strong> 148,500.00 POL</div>
+      <div class="ticker-item">🛡️ <strong>INSURANCE POOL:</strong> 45,200.00 POL</div>
+      <div class="ticker-item">⚡ <strong>ORDERBOOK:</strong> 3 Active Listings</div>
+      <div class="ticker-item">⚖️ <strong>GOV WALLET:</strong> 0x3C44...93BC</div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top: 50px;">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <div class="neon-tag neon-tag--cyan" style="margin-bottom: 16px;">
+          <span class="pulse-beacon pulse-beacon--green"></span> Live On-Chain Transparency
+        </div>
+        <h1 style="font-size: 3rem; margin-bottom: 16px;">
+          Trust Through <span class="text-gradient-blue">Cryptographic Auditability</span>
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 1.15rem;">
+          TokenProp automatically executes <strong>10% Tax Deducted at Source (TDS)</strong> upon every rent deposit directly to the government treasury wallet. Every transaction is verifiable on the blockchain.
+        </p>
+      </div>
+
+      <!-- Key Metrics Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 50px;">
+        <div class="cyber-card" style="padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">TOTAL TDS SENT TO GOV</span>
+            <span class="neon-tag neon-tag--amber">10% TDS</span>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: var(--neon-amber); font-family: 'Space Grotesk', sans-serif;">
+            14,850.00 POL
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">
+            Remitted directly to Government Treasury wallet via <code>RentDistributor.sol</code>.
+          </p>
+        </div>
+
+        <div class="cyber-card" style="padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">GROSS RENT CHECKPOINTED</span>
+            <span class="neon-tag neon-tag--emerald">ACTIVE STREAM</span>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: var(--neon-emerald); font-family: 'Space Grotesk', sans-serif;">
+            148,500.00 POL
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">
+            Accumulator-based per-second yield engine (fixes token hopping).
+          </p>
+        </div>
+
+        <div class="cyber-card" style="padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">PARAMETRIC INSURANCE POOL</span>
+            <span class="neon-tag neon-tag--purple">2-OF-3 QUORUM</span>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: var(--neon-purple); font-family: 'Space Grotesk', sans-serif;">
+            45,200.00 POL
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">
+            Autonomous liquidity backing calibrated with USGS seismic triggers.
+          </p>
+        </div>
+
+        <div class="cyber-card" style="padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">DAO TREASURY BALANCE</span>
+            <span class="neon-tag neon-tag--cyan">COMMUNITY HELD</span>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: var(--neon-cyan); font-family: 'Space Grotesk', sans-serif;">
+            312,800.00 POL
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">
+            Managed by Proof-of-Involvement voting power.
+          </p>
+        </div>
+      </div>
+
+      <!-- Real-Time Activity Feed -->
+      <div class="cyber-card" style="padding: 36px; margin-bottom: 50px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Live On-Chain Event Stream</h2>
+            <p style="color: var(--text-secondary);">Real-time events recorded on Polygon Amoy with transaction hashes</p>
+          </div>
+          <span class="neon-tag neon-tag--cyan"><span class="pulse-beacon pulse-beacon--green"></span> Live Stream Active</span>
+        </div>
+
+        <div id="activity-feed-container" style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- Dynamically populated or fallback -->
+          <div style="padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="font-size: 1.8rem;">🏛️</div>
+              <div>
+                <div style="font-weight: 700; color: var(--neon-amber);">Automated TDS Remitted to Government Treasury</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Skyline Residences · Block #15423891</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 700; color: var(--neon-cyan); font-family: monospace;">1,250.00 POL</div>
+              <a href="https://amoy.polygonscan.com" target="_blank" style="font-size: 0.78rem; color: var(--accent-blue); text-decoration: underline;">
+                View on Polygonscan ↗
+              </a>
+            </div>
+          </div>
+
+          <div style="padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="font-size: 1.8rem;">💰</div>
+              <div>
+                <div style="font-weight: 700; color: var(--neon-emerald);">Monthly Rental Yield Deposited & Checkpointed</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Skyline Residences · Block #15423890</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 700; color: var(--neon-emerald); font-family: monospace;">12,500.00 POL</div>
+              <a href="https://amoy.polygonscan.com" target="_blank" style="font-size: 0.78rem; color: var(--accent-blue); text-decoration: underline;">
+                View on Polygonscan ↗
+              </a>
+            </div>
+          </div>
+
+          <div style="padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="font-size: 1.8rem;">⚡</div>
+              <div>
+                <div style="font-weight: 700; color: var(--neon-purple);">Secondary OrderBook Swap Completed</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Oceanview Villa · 40 Tokens @ 0.08 POL</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 700; color: var(--neon-purple); font-family: monospace;">3.20 POL</div>
+              <a href="https://amoy.polygonscan.com" target="_blank" style="font-size: 0.78rem; color: var(--accent-blue); text-decoration: underline;">
+                View on Polygonscan ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive TDS Calculator -->
+      <div class="cyber-card" style="padding: 36px;">
+        <h2 style="font-size: 1.8rem; margin-bottom: 8px;">Interactive TDS Compliance Simulator</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">
+          Test the immutable math executed inside <code>RentDistributor.sol</code> on Polygon.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+          <div>
+            <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">ENTER GROSS RENT DEPOSIT (POL):</label>
+            <input type="number" id="tds-input" value="1000" style="width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 12px; color: #fff; font-size: 1.2rem; font-family: 'Space Grotesk', monospace;" oninput="calculateTDS()">
+          </div>
+
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="flex: 1; padding: 16px; background: rgba(255, 184, 0, 0.08); border: 1px solid rgba(255, 184, 0, 0.3); border-radius: 12px;">
+              <div style="font-size: 0.8rem; color: var(--neon-amber); font-weight: 600;">10% AUTO-TDS (GOV TREASURY)</div>
+              <div id="tds-tax-val" style="font-size: 1.6rem; font-weight: 800; color: var(--neon-amber); font-family: monospace; margin-top: 4px;">100.00 POL</div>
+            </div>
+
+            <div style="flex: 1; padding: 16px; background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 12px;">
+              <div style="font-size: 0.8rem; color: var(--neon-emerald); font-weight: 600;">90% NET CLAIMABLE POOL</div>
+              <div id="tds-net-val" style="font-size: 1.6rem; font-weight: 800; color: var(--neon-emerald); font-family: monospace; margin-top: 4px;">900.00 POL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">🏛️ TokenProp · Real Estate on Polygon</div>
+      <div style="color: var(--text-muted); font-size: 0.85rem;">© 2026 TokenProp. All smart contract executions recorded immutably on Polygon Amoy.</div>
+    </div>
+  </footer>
+
+  <script src="js/mock-api.js"></script>
+  <script src="js/web3.js"></script>
+  <script>
+    function calculateTDS() {
+      const gross = parseFloat(document.getElementById('tds-input').value) || 0;
+      const tax = gross * 0.10;
+      const net = gross * 0.90;
+      document.getElementById('tds-tax-val').innerText = tax.toFixed(2) + " POL";
+      document.getElementById('tds-net-val').innerText = net.toFixed(2) + " POL";
+    }
+
+    // Fetch live feed from backend
+    async function fetchLiveTransparency() {
+      try {
+        const res = await fetch("/api/transparency");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.recentOnChainEvents && data.recentOnChainEvents.length) {
+            const container = document.getElementById('activity-feed-container');
+            container.innerHTML = data.recentOnChainEvents.map(evt => `
+              <div style="padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <div style="font-size: 1.8rem;">${evt.type.includes('TDS') ? '🏛️' : evt.type.includes('RENT') ? '💰' : '⚡'}</div>
+                  <div>
+                    <div style="font-weight: 700; color: ${evt.type.includes('TDS') ? 'var(--neon-amber)' : 'var(--neon-emerald)'};">${evt.title} · Simulated</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">${evt.property} · Block #${evt.blockNumber}</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 700; color: #FFFFFF; font-family: monospace;">${evt.amount || 'Recorded'}</div>
+                  <a href="https://amoy.polygonscan.com/tx/${evt.txHash}" target="_blank" style="font-size: 0.78rem; color: var(--neon-cyan); text-decoration: underline;">
+                    ${evt.txHash.substring(0, 10)}... ↗
+                  </a>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+      } catch (err) {
+        console.error("Could not load simulated transparency events:", err);
+      }
+    }
+    fetchLiveTransparency();
+  </script>
+</body>
+</html>

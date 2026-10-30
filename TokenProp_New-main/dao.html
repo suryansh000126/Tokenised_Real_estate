@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAO Governance — TokenProp</title>
+  <meta name="description" content="Participate in decentralized governance. Vote on property proposals using Proof-of-Involvement weighted scoring.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dao.css">
+  <link rel="stylesheet" href="css/kyc.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+</head>
+<body class="dao-site">
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="dao.html" class="active">Governance</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="transparency.html">Transparency</a></li>
+        <li><a href="learn.html">Learn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="kyc-badge kyc-badge--unverified" id="kyc-open-btn" type="button">
+          <span class="kyc-badge-dot"></span> Verify KYC
+        </button>
+        <button class="nav-wallet" id="wallet-btn" onclick="connectWallet()"><span class="wallet-dot"></span> 0x71C7...3aF9</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dao-page">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="dao-header">
+        <div class="dao-header-text">
+          <h1>DAO <span class="text-gradient-gold">Governance</span></h1>
+          <p>Shape property decisions through community voting. Your voice matters — weighted by Proof-of-Involvement (POI), ensuring authentic stakeholder alignment.</p>
+        </div>
+        <div class="dao-header-actions">
+          <button class="btn btn-primary" id="btn-open-create-prop">
+            <span>✍️</span> Submit Proposal
+          </button>
+          <button class="btn btn-secondary" id="btn-quick-verify" style="display:none">
+            <span>⚡</span> Quick Demo Verify
+          </button>
+        </div>
+      </div>
+
+      <!-- Layout -->
+      <div class="dao-layout">
+
+        <!-- Proposals List Column -->
+        <div class="proposals-section">
+          <div class="proposals-header">
+            <h2>Community Proposals</h2>
+            <div class="proposals-tabs">
+              <button class="active" data-tab="active">Active</button>
+              <button data-tab="passed">Passed</button>
+              <button data-tab="rejected">Rejected</button>
+              <button data-tab="all">All</button>
+            </div>
+          </div>
+
+          <div id="proposals-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="dao-sidebar">
+
+          <!-- POI Score Card -->
+          <div class="poi-card glass-card">
+            <h3>Your <span class="text-gradient-gold">POI Score</span></h3>
+            <p class="poi-subtitle">Proof-of-Involvement determines your voting power</p>
+
+            <div class="poi-score-display">
+              <div class="poi-ring">
+                <svg viewBox="0 0 140 140">
+                  <defs>
+                    <linearGradient id="poiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#F5A623"/>
+                      <stop offset="100%" style="stop-color:#00D4A1"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="ring-bg" cx="70" cy="70" r="65"/>
+                  <circle class="ring-fill" cx="70" cy="70" r="65"/>
+                </svg>
+                <div class="poi-score-num" id="poi-score-num">76</div>
+              </div>
+              <div class="poi-score-label">out of 100 &bull; <strong>High Engagement</strong></div>
+            </div>
+
+            <div class="poi-breakdown" id="poi-breakdown">
+              <!-- Rendered by JS -->
+            </div>
+
+            <div class="poi-comparison">
+              <h4>Your Influence vs. Financial Weight</h4>
+              <div class="comparison-row">
+                <span class="comparison-label">🗳️ Governance Weight (POI)</span>
+                <span class="comparison-value" id="gov-weight" style="color:var(--accent-gold)">4.2%</span>
+              </div>
+              <div class="comparison-row">
+                <span class="comparison-label">💰 Pure Financial Weight</span>
+                <span class="comparison-value" id="fin-weight" style="color:var(--text-muted)">3.1%</span>
+              </div>
+            </div>
+
+            <div class="poi-formula">
+              <h4>📐 POI Algorithm</h4>
+              <code>POI = (Ownership × 0.40) + (Activity × 0.35) + (Duration × 0.25)</code>
+            </div>
+          </div>
+
+          <!-- DAO Stats Card -->
+          <div class="dao-stats-card glass-card">
+            <h3>🏛️ DAO Statistics</h3>
+            <div id="dao-stats-body">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Create Proposal Modal -->
+  <div class="prop-modal-overlay" id="prop-modal-overlay">
+    <div class="prop-modal">
+      <div class="prop-modal-header">
+        <h2>✍️ Submit New Proposal</h2>
+        <button class="prop-close-btn" id="prop-close-btn">&times;</button>
+      </div>
+      <form id="create-prop-form">
+        <div class="form-group">
+          <label for="prop-title">Proposal Title</label>
+          <input type="text" id="prop-title" class="form-input" placeholder="e.g. Install EV Charging Stations" required>
+        </div>
+        <div class="form-group">
+          <label for="prop-property">Associated Property</label>
+          <select id="prop-property" class="form-select" required>
+            <option value="Skyline Residences">Skyline Residences (Manhattan)</option>
+            <option value="Oceanview Villa">Oceanview Villa (Miami)</option>
+            <option value="Austin Tech Innovation Campus">Austin Tech Innovation Campus</option>
+            <option value="Marina Bay Commercial Hub">Marina Bay Commercial Hub</option>
+            <option value="Tokyo Tech Park">Tokyo Tech Park</option>
+            <option value="Napa Valley Vineyard Estate">Napa Valley Vineyard Estate</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prop-category">Category</label>
+          <select id="prop-category" class="form-select">
+            <option value="Development">Development & Upgrades</option>
+            <option value="Sustainability">Sustainability & Energy</option>
+            <option value="Leasing">Tenant & Leasing</option>
+            <option value="Operations">Operations & Maintenance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prop-desc">Proposal Description</label>
+          <textarea id="prop-desc" class="form-textarea" placeholder="Detail the expected costs, ROI, and rationale for this proposal..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px">Submit Proposal for Community Vote</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Vote Toast -->
+  <div class="vote-toast" id="vote-toast">
+    <span class="toast-icon">✅</span>
+    <span class="toast-text" id="toast-text">Vote submitted successfully!</span>
+  </div>
+
+  <!-- KYC Modal (Interactive Full Flow) -->
+  <div class="kyc-modal-overlay" id="kyc-modal-overlay">
+    <div class="kyc-modal">
+      <div class="kyc-modal-head">
+        <div class="kyc-modal-title-row">
+          <div class="kyc-modal-title">
+            <div class="kyc-modal-title-icon">🏛️</div>
+            <div>
+              <h2>Aadhaar KYC</h2>
+              <div class="kyc-modal-subtitle">Secure Off-chain Verification</div>
+            </div>
+          </div>
+          <button class="kyc-close-btn" onclick="closeKYCModal()">&times;</button>
+        </div>
+        <div class="kyc-steps-indicator">
+          <div class="kyc-step-dot active" id="kyc-dot-1">1</div>
+          <div class="kyc-step-line" id="kyc-line-1"></div>
+          <div class="kyc-step-dot" id="kyc-dot-2">2</div>
+          <div class="kyc-step-line" id="kyc-line-2"></div>
+          <div class="kyc-step-dot" id="kyc-dot-3">3</div>
+        </div>
+      </div>
+
+      <div class="kyc-modal-body">
+        <!-- Step 1 -->
+        <div class="kyc-step-panel active" id="kyc-step-1">
+          <div class="kyc-wallet-info">
+            <span class="wallet-label">Connected:</span>
+            <span class="wallet-addr" id="kyc-wallet-addr">0x71C7...3aF9</span>
+          </div>
+          <div class="kyc-demo-notice" style="padding:12px;margin-bottom:14px;border:1px solid rgba(255,169,48,.25);border-radius:10px;color:#ffcd80;font-size:.82rem;">
+            Demo verification simulation: voting requires an active KYC status. Click below to receive the demo OTP.
+          </div>
+          <div class="kyc-email-group">
+            <label>Email Address (Optional)</label>
+            <input type="email" class="kyc-email-input" id="kyc-email" placeholder="investor@demo.com">
+            <div class="kyc-input-hint">No real email or SMS is sent; code will be shown on screen.</div>
+          </div>
+          <button class="kyc-action-btn kyc-action-btn--send" id="kyc-send-btn" onclick="sendKYCOTP()">📩 Send Demo OTP</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="kyc-step-panel" id="kyc-step-2">
+          <div class="kyc-otp-info" id="kyc-otp-info">Demo OTP: 123456</div>
+          <div class="kyc-otp-container" id="kyc-otp-inputs">
+            <input type="text" class="kyc-otp-digit" maxlength="1" autocomplete="one-time-code">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+          </div>
+          <div class="kyc-input-error" id="kyc-otp-error" style="text-align:center"></div>
+          <div class="kyc-resend-row">
+            Didn't receive it?
+            <button class="kyc-resend-btn" id="kyc-resend-btn" onclick="resendOTP()" disabled>Resend <span id="kyc-resend-timer"></span></button>
+          </div>
+          <button class="kyc-action-btn kyc-action-btn--verify" id="kyc-verify-btn" onclick="verifyKYCOTP()" disabled>
+            ✅ Complete Demo Verification
+          </button>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="kyc-step-panel" id="kyc-step-3">
+          <div class="kyc-success">
+            <div class="kyc-success-icon">✓</div>
+            <h3>Identity Verified!</h3>
+            <p id="kyc-success-msg">Your wallet is now whitelisted. Voting in DAO governance is unlocked!</p>
+            <button class="kyc-success-done-btn" onclick="closeKYCModal()">Start Voting</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</div>
+          <p>Democratizing real estate investment through blockchain tokenization and community governance.</p>
+        </div>
+        <div class="footer-col"><h4>Platform</h4><a href="marketplace.html">Marketplace</a><a href="dao.html">Governance</a><a href="dashboard.html">Dashboard</a></div>
+        <div class="footer-col"><h4>Resources</h4><a href="#">Documentation</a><a href="#">Smart Contracts</a><a href="#">Whitepaper</a></div>
+        <div class="footer-col"><h4>Community</h4><a href="#">Discord</a><a href="#">Twitter / X</a><a href="#">Telegram</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TokenProp. All rights reserved.</span>
+        <div class="footer-socials"><a href="#">𝕏</a><a href="#">💬</a><a href="#">🐙</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/mock-api.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/kyc.js"></script>
+  <script src="js/dao.js"></script>
+</body>
+</html>

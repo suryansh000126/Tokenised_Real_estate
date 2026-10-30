@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DePIN Bounties | TokenProp</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/marketplace.css">
+  <link rel="stylesheet" href="css/insurance.css">
+  <link rel="stylesheet" href="css/kyc.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🏛️</span> TokenProp
+      </a>
+      <div class="nav-links">
+        <a href="marketplace.html">Marketplace</a>
+        <a href="dashboard.html">Portfolio</a>
+        <a href="dao.html">Governance DAO</a>
+        <a href="bounties.html" class="active">DePIN Bounties</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-wallet-btn" id="nav-wallet-btn" onclick="connectWallet()">Connect Wallet</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container bounties-page animate-fade-in">
+    <div class="bounties-header">
+      <h1>🛠️ DePIN Maintenance Bounties</h1>
+      <p>Decentralized Physical Infrastructure Network. Claim tasks, verify real-world work via AI, and earn crypto instantly.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="bounties-stats" id="bounties-stats">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Filters -->
+    <div class="bounty-filters">
+      <button class="bounty-filter-btn active" data-status="all">All Bounties</button>
+      <button class="bounty-filter-btn" data-status="open">🟢 Open</button>
+      <button class="bounty-filter-btn" data-status="claimed">🟡 Claimed</button>
+      <button class="bounty-filter-btn" data-status="under_review">🔵 Under Review</button>
+      <button class="bounty-filter-btn" data-status="completed">✅ Completed</button>
+      <button class="bounty-filter-btn" style="margin-left: auto;" id="btn-create-bounty">+ Propose New Bounty</button>
+    </div>
+
+    <!-- Bounty Grid -->
+    <div class="bounties-grid" id="bounties-grid">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard-section glass-card animate-fade-up">
+      <h2>🏆 Contractor Leaderboard</h2>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Contractor</th>
+            <th>Completed</th>
+            <th>Earned (USD)</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/bounties.js"></script>
+</body>
+</html>

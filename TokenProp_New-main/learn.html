@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — TokenProp</title>
+  <meta name="description" content="Learn how TokenProp works: tokenization, fractional ownership, DAO governance, and Proof-of-Involvement.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <style>
+    .learn-page{padding-top:calc(var(--nav-height)+32px)}
+    .learn-header{padding:48px 0 32px;text-align:center;background:radial-gradient(ellipse at top center,rgba(108,99,255,0.06) 0%,transparent 60%)}
+    .learn-header h1{font-size:2.4rem;margin-bottom:8px}
+    .learn-header p{color:var(--text-secondary);font-size:1.05rem;max-width:640px;margin:0 auto}
+    .learn-sections{padding-bottom:80px}
+    .learn-block{padding:60px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+    .learn-block:last-child{border:none}
+    .learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+    .learn-grid.reverse{direction:rtl}.learn-grid.reverse>*{direction:ltr}
+    .learn-text h2{font-size:1.8rem;margin-bottom:16px}
+    .learn-text p{color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:16px}
+    .learn-visual{padding:40px;text-align:center}
+    .learn-icon-big{font-size:4rem;margin-bottom:20px;display:block}
+    .learn-steps{display:flex;flex-direction:column;gap:16px}
+    .learn-step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.03)}
+    .learn-step-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0}
+    .learn-step:nth-child(1) .learn-step-num{background:rgba(79,142,247,0.15);color:var(--accent-blue)}
+    .learn-step:nth-child(2) .learn-step-num{background:rgba(245,166,35,0.15);color:var(--accent-gold)}
+    .learn-step:nth-child(3) .learn-step-num{background:rgba(0,212,161,0.15);color:var(--accent-green)}
+    .learn-step:nth-child(4) .learn-step-num{background:rgba(108,99,255,0.15);color:#6C63FF}
+    .learn-step h4{font-size:0.95rem;margin-bottom:4px}
+    .learn-step p{font-size:0.85rem;color:var(--text-muted);margin:0;line-height:1.5}
+    .poi-visual{padding:28px;margin-top:12px}
+    .poi-formula-block{font-family:'Space Grotesk',monospace;font-size:1.1rem;text-align:center;padding:20px;border-radius:var(--radius-sm);background:rgba(245,166,35,0.06);border:1px dashed rgba(245,166,35,0.2);margin-bottom:20px;color:var(--accent-gold)}
+    .poi-bars{display:flex;flex-direction:column;gap:10px}
+    .poi-bar-row{display:flex;align-items:center;gap:12px}
+    .poi-bar-label{width:100px;font-size:0.85rem;color:var(--text-secondary)}
+    .poi-bar-track{flex:1;height:10px;border-radius:5px;background:rgba(255,255,255,0.06);overflow:hidden}
+    .poi-bar-fill{height:100%;border-radius:5px}
+    .poi-bar-pct{width:40px;text-align:right;font-size:0.85rem;font-weight:600}
+    .revenue-flow{display:flex;flex-direction:column;gap:12px}
+    .revenue-box{padding:16px;border-radius:var(--radius-sm);display:flex;align-items:center;gap:12px}
+    .revenue-box .rv-icon{font-size:1.4rem}
+    .revenue-box h4{font-size:0.95rem;margin-bottom:2px}
+    .revenue-box p{font-size:0.82rem;color:var(--text-muted);margin:0}
+    .learn-cta{text-align:center;padding:80px 0;background:radial-gradient(ellipse at center,rgba(79,142,247,0.06) 0%,transparent 70%)}
+    .learn-cta h2{font-size:2rem;margin-bottom:16px}
+    .learn-cta p{color:var(--text-secondary);max-width:500px;margin:0 auto 28px}
+    @media(max-width:768px){.learn-grid,.learn-grid.reverse{grid-template-columns:1fr;direction:ltr}}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="dao.html">Governance</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="learn.html" class="active">Learn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-wallet" id="wallet-btn" onclick="connectWallet()"><span class="wallet-dot"></span> Connect Wallet</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="learn-page">
+    <div class="container">
+      <div class="learn-header">
+        <h1>How <span class="text-gradient-blue">TokenProp</span> Works</h1>
+        <p>Understanding tokenized real estate, fractional ownership, and community-driven governance</p>
+      </div>
+
+      <div class="learn-sections">
+
+        <!-- 1. Tokenization -->
+        <div class="learn-block">
+          <div class="learn-grid animate-fade-up">
+            <div class="learn-text">
+              <h2>🏗️ What is <span class="text-gradient-blue">Tokenization</span>?</h2>
+              <p>Tokenization is the process of converting a real-world asset — like a building, land, or villa — into digital tokens on the blockchain. Each token represents a fractional share of ownership in the property.</p>
+              <p>Think of it like splitting a $1M property into 10,000 tokens worth $100 each. Anyone can buy 1 or 1,000 tokens, giving them proportional ownership rights.</p>
+            </div>
+            <div class="learn-visual glass-card">
+              <span class="learn-icon-big">🏢 → 🪙🪙🪙</span>
+              <div class="learn-steps">
+                <div class="learn-step"><div class="learn-step-num">1</div><div><h4>Property Verification</h4><p>Legal docs and valuation uploaded to IPFS</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">2</div><div><h4>Smart Contract Deploy</h4><p>Ownership tokens minted on Polygon</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">3</div><div><h4>Token Sale</h4><p>Tokens listed on marketplace for investors</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">4</div><div><h4>Trade & Earn</h4><p>Buy, sell, and earn yields from property income</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. POI -->
+        <div class="learn-block">
+          <div class="learn-grid reverse animate-fade-up">
+            <div class="learn-text">
+              <h2>🗳️ <span class="text-gradient-gold">Proof-of-Involvement</span></h2>
+              <p>Unlike traditional systems where whales dominate decisions, TokenProp separates financial ownership from governance power. Your voting weight is calculated using a dynamic score based on three factors:</p>
+              <p><strong>Ownership (40%)</strong> — How many tokens you hold across properties.<br>
+              <strong>Activity (35%)</strong> — How actively you participate in voting and proposals.<br>
+              <strong>Duration (25%)</strong> — How long you've been holding tokens without selling.</p>
+              <p>This ensures that active, long-term participants have more influence than passive whale investors.</p>
+            </div>
+            <div class="learn-visual glass-card">
+              <div class="poi-formula-block">POI = (Own × 0.40) + (Act × 0.35) + (Dur × 0.25)</div>
+              <div class="poi-bars">
+                <div class="poi-bar-row"><span class="poi-bar-label">🪙 Ownership</span><div class="poi-bar-track"><div class="poi-bar-fill" style="width:72%;background:var(--gradient-blue)"></div></div><span class="poi-bar-pct">72</span></div>
+                <div class="poi-bar-row"><span class="poi-bar-label">⚡ Activity</span><div class="poi-bar-track"><div class="poi-bar-fill" style="width:85%;background:var(--gradient-gold)"></div></div><span class="poi-bar-pct">85</span></div>
+                <div class="poi-bar-row"><span class="poi-bar-label">⏱️ Duration</span><div class="poi-bar-track"><div class="poi-bar-fill" style="width:68%;background:var(--gradient-green)"></div></div><span class="poi-bar-pct">68</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Revenue -->
+        <div class="learn-block">
+          <div class="learn-grid animate-fade-up">
+            <div class="learn-text">
+              <h2>💰 <span class="text-gradient-green">Revenue & Income</span></h2>
+              <p>Owning tokens does not automatically generate income. Revenue depends on how the property is utilized:</p>
+              <p><strong>Rental income</strong> from developed properties is distributed proportionally. <strong>Capital appreciation</strong> increases token value over time. The DAO can also vote to lease, develop, or sell.</p>
+              <p>Platform revenue comes from tokenization fees (2%), marketplace transaction fees (0.5%), and premium services.</p>
+            </div>
+            <div class="learn-visual glass-card">
+              <div class="revenue-flow">
+                <div class="revenue-box" style="background:rgba(79,142,247,0.06)"><span class="rv-icon">🏠</span><div><h4>Rental Income</h4><p>Monthly distribution to token holders</p></div></div>
+                <div class="revenue-box" style="background:rgba(0,212,161,0.06)"><span class="rv-icon">📈</span><div><h4>Capital Appreciation</h4><p>Property value increase reflected in token price</p></div></div>
+                <div class="revenue-box" style="background:rgba(245,166,35,0.06)"><span class="rv-icon">🤝</span><div><h4>Leasing & Partnerships</h4><p>DAO votes on commercial lease agreements</p></div></div>
+                <div class="revenue-box" style="background:rgba(108,99,255,0.06)"><span class="rv-icon">🔨</span><div><h4>Development Funding</h4><p>Community-funded improvements boost property value</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Tech Stack -->
+        <div class="learn-block">
+          <div class="learn-grid reverse animate-fade-up">
+            <div class="learn-text">
+              <h2>🔧 <span class="text-gradient-blue">Tech Stack</span></h2>
+              <p>TokenProp is built with a modern, production-grade stack designed for security, scalability, and transparency:</p>
+              <p><strong>Frontend:</strong> Vanilla HTML, CSS & JavaScript + ethers.js<br>
+               <strong>Backend:</strong> Node.js + Express (REST API)<br>
+               <strong>Smart Contracts:</strong> Solidity 0.8.26 on Polygon (Hardhat)<br>
+               <strong>Storage:</strong> IPFS for documents & metadata<br>
+               <strong>Auth:</strong> MetaMask wallet-based (no passwords)<br>
+               <strong>Security:</strong> OpenZeppelin contracts, CEI pattern</p>
+            </div>
+            <div class="learn-visual glass-card">
+              <div class="learn-steps">
+                <div class="learn-step"><div class="learn-step-num">🌐</div><div><h4>HTML/CSS/JS + ethers.js</h4><p>Fast, responsive UI with Web3 integration</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">🟢</div><div><h4>Node.js + Express API</h4><p>REST API, blockchain bridge, price feeds</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">📜</div><div><h4>Solidity 0.8.26 + Hardhat</h4><p>ERC-1155 tokens, DAO governance, rent distribution</p></div></div>
+                <div class="learn-step"><div class="learn-step-num">🔗</div><div><h4>Polygon Amoy + IPFS</h4><p>Testnet deployment, decentralized storage</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div class="learn-cta animate-fade-up">
+        <h2>Ready to Get Started?</h2>
+        <p>Explore tokenized properties and start building your real estate portfolio today.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="marketplace.html" class="btn btn-primary btn-lg">Explore Marketplace →</a>
+          <a href="dao.html" class="btn btn-secondary btn-lg">Join Governance</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</div><p>Democratizing real estate investment.</p></div>
+        <div class="footer-col"><h4>Platform</h4><a href="marketplace.html">Marketplace</a><a href="dao.html">Governance</a><a href="dashboard.html">Dashboard</a></div>
+        <div class="footer-col"><h4>Resources</h4><a href="#">Docs</a><a href="#">Whitepaper</a></div>
+        <div class="footer-col"><h4>Community</h4><a href="#">Discord</a><a href="#">Twitter</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 TokenProp.</span><div class="footer-socials"><a href="#">𝕏</a><a href="#">💬</a></div></div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/data.js"></script>
+  <script>
+    initNavbar();
+    initScrollAnimations();
+  </script>
+</body>
+</html>

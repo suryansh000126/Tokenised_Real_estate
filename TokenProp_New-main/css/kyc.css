@@ -1,0 +1,68 @@
+.kyc-modal-overlay {
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(3, 7, 14, .82);
+  backdrop-filter: blur(12px);
+}
+.kyc-modal-overlay[aria-hidden="false"] { display: flex; }
+.kyc-modal {
+  position: relative;
+  width: min(100%, 470px);
+  max-height: min(90vh, 720px);
+  overflow: auto;
+  border: 1px solid rgba(160, 190, 235, .2);
+  border-radius: 18px;
+  background: #121b2b;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, .48);
+}
+.kyc-modal-head { padding: 22px 24px 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.kyc-modal-title-row, .kyc-modal-title { display: flex; align-items: center; gap: 12px; }
+.kyc-modal-title-row { justify-content: space-between; }
+.kyc-modal-title-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: rgba(66,184,255,.12); }
+.kyc-modal-title h2 { margin: 0; font-size: 1.05rem; }
+.kyc-modal-subtitle { color: #8290a8; font-size: .75rem; }
+.kyc-close-btn { border: 0; background: none; color: #aab6cb; cursor: pointer; font-size: 1.5rem; }
+.kyc-steps-indicator { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; }
+.kyc-step-dot { display: grid; width: 26px; height: 26px; place-items: center; border-radius: 50%; background: #283348; color: #8290a8; font-size: .75rem; }
+.kyc-step-dot.active { background: #3982f6; color: #fff; }
+.kyc-step-line { width: 55px; height: 1px; background: #35435c; }
+.kyc-modal-body { padding: 22px 24px 24px; }
+.kyc-step-panel { display: none; }
+.kyc-step-panel.active { display: block; }
+.kyc-wallet-info { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 16px; padding: 10px 12px; border-radius: 9px; background: rgba(255,255,255,.04); color: #8998ae; font-size: .78rem; }
+.wallet-addr { color: #d7e3f5; font-family: ui-monospace, monospace; }
+.kyc-email-group label, .kyc-aadhaar-group label { display: block; margin-bottom: 7px; color: #e2eaf5; font-size: .82rem; font-weight: 700; }
+.kyc-email-input, .kyc-aadhaar-input { width: 100%; padding: 11px 12px; border: 1px solid rgba(165,190,235,.18); border-radius: 9px; outline: none; background: rgba(255,255,255,.04); color: #f4f7ff; }
+.kyc-email-input:focus, .kyc-aadhaar-input:focus { border-color: #42b8ff; }
+.kyc-input-hint, .kyc-input-error { margin-top: 6px; color: #8290a8; font-size: .72rem; }
+.kyc-input-error { min-height: 1em; color: #ff777d; }
+.kyc-action-btn { width: 100%; min-height: 43px; margin-top: 17px; border: 0; border-radius: 9px; background: linear-gradient(110deg, #287cff, #755cff); color: white; cursor: pointer; font-weight: 750; }
+.kyc-action-btn:disabled { cursor: not-allowed; opacity: .48; }
+.kyc-otp-info { margin-bottom: 16px; padding: 10px; border-radius: 8px; background: rgba(66,184,255,.08); color: #9bdfff; font-size: .78rem; text-align: center; }
+.kyc-otp-container { display: flex; justify-content: center; gap: 8px; }
+.kyc-otp-digit { width: 43px; height: 48px; border: 1px solid rgba(165,190,235,.2); border-radius: 8px; background: rgba(255,255,255,.04); color: white; font-size: 1.15rem; text-align: center; }
+.kyc-resend-row { margin-top: 12px; color: #8290a8; font-size: .78rem; text-align: center; }
+.kyc-resend-btn { border: 0; background: none; color: #81baff; cursor: pointer; }
+.kyc-resend-btn:disabled { color: #61708a; cursor: default; }
+.kyc-success { text-align: center; }
+.kyc-success-icon { display: grid; width: 52px; height: 52px; margin: 0 auto 13px; place-items: center; border-radius: 50%; background: rgba(0,212,161,.12); color: #00d4a1; font-size: 1.6rem; }
+.kyc-success h3 { margin-bottom: 8px; }
+.kyc-success p { color: #aab6cb; font-size: .85rem; }
+.kyc-tx-link { color: #81baff; font-size: .76rem; }
+.kyc-success-done-btn { display: block; width: 100%; min-height: 42px; margin-top: 17px; border: 0; border-radius: 9px; background: #218c77; color: white; cursor: pointer; font-weight: 700; }
+.kyc-gate { position: relative; }
+.kyc-gate-overlay { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 8px; border-radius: 10px; background: rgba(9,14,24,.92); color: #aab6cb; font-size: .78rem; }
+.kyc-gate-overlay[hidden] { display: none; }
+.kyc-gate-btn { border: 0; border-radius: 8px; padding: 8px 14px; background: #ff9a22; color: white; cursor: pointer; font-weight: 700; }
+.kyc-badge--verified { border-color: rgba(0,212,161,.32); color: #5de7c2; }
+.demo-vote-enabled { cursor: pointer !important; color: #dbe8fb !important; }
+@media (max-width: 430px) {
+  .kyc-modal-head, .kyc-modal-body { padding-inline: 16px; }
+  .kyc-otp-container { gap: 5px; }
+  .kyc-otp-digit { width: 39px; }
+}

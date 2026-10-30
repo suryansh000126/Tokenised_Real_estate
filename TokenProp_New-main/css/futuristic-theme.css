@@ -1,0 +1,17 @@
+body { background: #080d18; }
+.cyber-canvas-bg {
+  position: fixed; z-index: -2; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 12% 9%, rgba(32, 115, 214, .13), transparent 38%),
+              radial-gradient(ellipse at 88% 28%, rgba(115, 69, 207, .1), transparent 36%);
+}
+.cyber-grid-overlay {
+  position: fixed; z-index: -1; inset: 0; pointer-events: none; opacity: .14;
+  background-image: linear-gradient(rgba(99, 145, 210, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 145, 210, .08) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+.cyber-card { overflow: hidden; }
+.neon-tag--cyan .pulse-beacon, .pulse-beacon--green { background: #00d4a1; box-shadow: 0 0 10px #00d4a1; }
+.stat-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: rgba(66,184,255,.12); }
+.stat-icon.green { background: rgba(0,212,161,.12); }
+.stat-icon.blue { background: rgba(66,184,255,.12); }

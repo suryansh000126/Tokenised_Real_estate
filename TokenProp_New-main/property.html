@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Detail — TokenProp</title>
+  <meta name="description" content="View property details, token distribution, revenue streams, and invest in tokenized real estate.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/property.css">
+  <link rel="stylesheet" href="css/insurance.css">
+  <link rel="stylesheet" href="css/kyc.css">
+  <link rel="stylesheet" href="css/futuristic-theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html" class="active">Marketplace</a></li>
+        <li><a href="dao.html">Governance</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="learn.html">Learn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="kyc-badge kyc-badge--unverified" onclick="openKYCModal()">
+          <span class="kyc-badge-dot"></span> Verify KYC
+        </div>
+        <button class="nav-wallet" id="wallet-btn" onclick="connectWallet()"><span class="wallet-dot"></span> Connect Wallet</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="property-page">
+    <div class="container">
+
+      <!-- Gallery -->
+      <div class="property-gallery">
+        <img id="gallery-img" src="" alt="">
+        <div class="gallery-overlay"></div>
+        <div class="gallery-badges" id="gallery-badges"></div>
+        <a href="marketplace.html" class="gallery-back">← Back to Marketplace</a>
+      </div>
+
+      <!-- Layout -->
+      <div class="property-layout">
+
+        <!-- Main Content -->
+        <div class="property-main">
+          <div class="property-title-row">
+            <h1 id="prop-title">loading...</h1>
+            <button class="fav-btn" aria-label="Favorite">♡</button>
+          </div>
+          <div class="property-location" id="prop-location"></div>
+          <div class="property-tags" id="prop-tags"></div>
+
+          <!-- AI Liquidity Score -->
+          <div class="ai-score-section glass-card animate-fade-up" id="ai-score-section">
+            <div class="ai-score-header">
+              <div class="ai-score-title">
+                <span class="ai-icon">🤖</span>
+                <h2>AI Liquidity Score</h2>
+                <span class="ai-engine-tag">rule-based-v1</span>
+              </div>
+              <div class="ai-score-badge" id="ai-liquidity-badge"></div>
+            </div>
+            <div class="ai-score-body">
+              <div class="ai-score-circle" id="ai-score-circle">
+                <svg class="score-ring-lg" viewBox="0 0 120 120">
+                  <circle class="score-ring-bg-lg" cx="60" cy="60" r="52" />
+                  <circle class="score-ring-fill-lg" id="score-ring-fill" cx="60" cy="60" r="52" />
+                </svg>
+                <div class="score-center">
+                  <div class="score-big" id="score-value">—</div>
+                  <div class="score-grade" id="score-grade">—</div>
+                </div>
+              </div>
+              <div class="ai-score-breakdown" id="ai-breakdown">
+                <!-- filled by JS -->
+              </div>
+            </div>
+            <div class="ai-score-footer">
+              <div class="ai-expert-status" id="ai-expert-status"></div>
+              <div class="ai-recommendation" id="ai-recommendation"></div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="property-description glass-card animate-fade-up">
+            <h2>About This Property</h2>
+            <p id="prop-desc-text"></p>
+          </div>
+
+          <!-- Key Details -->
+          <div class="property-details glass-card animate-fade-up">
+            <h2>Key Details</h2>
+            <div class="details-grid" id="details-grid"></div>
+          </div>
+
+          <!-- Token Distribution -->
+          <div class="property-chart-section glass-card animate-fade-up">
+            <h2>Token Distribution</h2>
+            <div class="chart-wrapper">
+              <div class="chart-canvas-wrap">
+                <canvas id="token-chart"></canvas>
+              </div>
+              <div class="chart-legend" id="chart-legend"></div>
+            </div>
+          </div>
+
+          <!-- Revenue -->
+          <div class="property-revenue glass-card animate-fade-up">
+            <h2>Revenue Streams</h2>
+            <div class="revenue-bars" id="revenue-bars"></div>
+          </div>
+
+          <!-- Documents -->
+          <div class="property-docs glass-card animate-fade-up">
+            <h2>Property Documents (IPFS)</h2>
+            <div id="doc-list"></div>
+          </div>
+
+          <!-- Tax Breakdown (TDS) -->
+          <div class="property-tax glass-card animate-fade-up">
+            <h2>🏛️ Tax Deduction at Source (TDS)</h2>
+            <div class="tax-breakdown" id="tax-breakdown">
+              <div class="tax-row">
+                <span class="tax-label">📥 Gross Rental Income</span>
+                <span class="tax-value gross" id="tax-gross">$0</span>
+              </div>
+              <div class="tax-row">
+                <span class="tax-label">🏛️ TDS Auto-Deducted (10%)</span>
+                <span class="tax-value deducted" id="tax-deducted">−$0</span>
+              </div>
+              <div class="tax-row">
+                <span class="tax-label">💰 Net Yield to Wallet</span>
+                <span class="tax-value net" id="tax-net">$0</span>
+              </div>
+              <div class="tax-gov-badge">🏛️ Tax sent directly to Government Treasury via Smart Contract</div>
+            </div>
+          </div>
+
+          <!-- Insurance Section -->
+          <div class="insurance-section glass-card animate-fade-up">
+            <h2>🛡️ Property Insurance</h2>
+            
+            <!-- Disaster Alerts -->
+            <div id="insurance-alerts">
+              <div class="no-alerts" id="no-alerts-msg">
+                ✅ No active disaster alerts for this property
+              </div>
+            </div>
+
+            <!-- Premium Card -->
+            <div class="insurance-premium-card" id="premium-card">
+              <div class="premium-stat">
+                <div class="premium-stat-label">Pool Balance</div>
+                <div class="premium-stat-value" id="ins-pool-balance">$0</div>
+              </div>
+              <div class="premium-stat">
+                <div class="premium-stat-label">Your Premium Status</div>
+                <div class="premium-stat-value active" id="ins-premium-status">✅ Active</div>
+              </div>
+              <div class="premium-stat">
+                <div class="premium-stat-label">Next Due Date</div>
+                <div class="premium-stat-value" id="ins-next-due">—</div>
+              </div>
+              <div class="premium-stat">
+                <div class="premium-stat-label">Premium Rate</div>
+                <div class="premium-stat-value" id="ins-premium-rate">0.5%/quarter</div>
+              </div>
+            </div>
+            <button class="btn-premium btn-premium--pay" id="btn-pay-premium">
+              🛡️ Pay Insurance Premium
+            </button>
+
+            <!-- Claims Timeline -->
+            <div class="claims-timeline" id="claims-timeline">
+              <h3 style="margin-top:24px;margin-bottom:12px;font-size:0.95rem;">Claim History</h3>
+            </div>
+            <button class="btn-file-claim" id="btn-file-claim">
+              📷 File Insurance Claim (Upload Damage Evidence)
+            </button>
+          </div>
+
+          <!-- Maintenance Log (Carfax) -->
+          <div class="maintenance-section glass-card animate-fade-up">
+            <h2>📜 Property Carfax (Maintenance Log)</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+              Immutable record of all maintenance, repairs, and audits linked to this Dynamic NFT via DePIN verification.
+            </p>
+            <div id="maintenance-timeline">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="property-sidebar">
+          <!-- Invest Card -->
+          <div class="invest-card glass-card">
+            <div class="price-tag">
+              <span class="price-main" id="invest-price">$0</span>
+              <span class="price-unit">per token</span>
+            </div>
+            <div class="invest-info-row">
+              <span class="invest-label">Expected Yield</span>
+              <span class="invest-val" id="invest-yield-val" style="color:var(--accent-green)">0%</span>
+            </div>
+            <div class="invest-info-row">
+              <span class="invest-label">Funded</span>
+              <span class="invest-val" id="invest-funded-val">0%</span>
+            </div>
+            <div class="invest-info-row">
+              <span class="invest-label">Tokens Remaining</span>
+              <span class="invest-val" id="invest-remaining-val">0</span>
+            </div>
+
+            <div class="invest-calc">
+              <label style="font-size:0.85rem;color:var(--text-secondary);display:block;margin-bottom:8px">Buy Tokens</label>
+              <div class="calc-input">
+                <button class="qty-btn" id="calc-minus">−</button>
+                <input type="number" id="calc-qty" value="1" min="1">
+                <button class="qty-btn" id="calc-plus">+</button>
+              </div>
+              <div class="calc-result">
+                <div class="total-label">Total Cost</div>
+                <div class="total-amount" id="calc-total">$0</div>
+              </div>
+              <div class="kyc-gate">
+                <button class="btn btn-primary btn-lg" id="buy-btn" style="width:100%">🔗 Buy Tokens</button>
+                <div class="kyc-gate-overlay">
+                  <div class="kyc-gate-text">KYC Verification Required</div>
+                  <button class="kyc-gate-btn" onclick="openKYCModal()">Verify Identity</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Owner Card -->
+          <div class="owner-card glass-card">
+            <div class="owner-info">
+              <div class="owner-avatar">P</div>
+              <div>
+                <div class="owner-name" id="owner-name">—</div>
+                <div class="owner-verified">✓ Verified Owner</div>
+              </div>
+            </div>
+            <div class="owner-stats">
+              <div class="owner-stat">
+                <div class="os-val" id="owner-props">0</div>
+                <div class="os-label">Properties</div>
+              </div>
+              <div class="owner-stat">
+                <div class="os-val" id="owner-total">$0</div>
+                <div class="os-label">Total Value</div>
+              </div>
+              <div class="owner-stat">
+                <div class="os-val">⭐ 4.8</div>
+                <div class="os-label">Rating</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cross-Chain Purchase -->
+          <div class="crosschain-card">
+            <h4>🌉 Buy From Another Chain</h4>
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:14px;">Pay on your preferred chain. Tokens settle on Polygon via bridge.</p>
+            <div class="chain-select" id="chain-select">
+              <div class="chain-option" onclick="selectChain(this,'ethereum')"><span class="chain-icon">⟠</span>Ethereum</div>
+              <div class="chain-option" onclick="selectChain(this,'base')"><span class="chain-icon">🔵</span>Base</div>
+              <div class="chain-option" onclick="selectChain(this,'bnb')"><span class="chain-icon">🟡</span>BNB Chain</div>
+            </div>
+            <div class="crosschain-info" id="crosschain-info">Select a source chain to see bridge details.</div>
+            <button class="btn-premium btn-premium--pay" style="margin-top:12px" id="btn-crosschain-buy" onclick="initCrossChainPurchase()" disabled>🌉 Bridge & Buy Tokens</button>
+          </div>
+
+          <!-- F-03 Live Streaming Rent Widget -->
+          <div class="streaming-rent-box cyber-card" style="margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span class="neon-tag neon-tag--emerald"><span class="pulse-beacon pulse-beacon--green"></span> Streaming Rent</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Rate: 0.000042 POL/sec</span>
+            </div>
+            <div class="stream-number" id="live-stream-counter" style="font-size: 1.8rem;">0.00412890 POL</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">Illustrative counter only; no rent is accruing on-chain</div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 12px; padding: 8px; font-size: 0.85rem;" onclick="alert('Demo only: no rent claim or blockchain transaction occurred.')">Claim Streamed Rent</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- F-08 Cryptographic Document Vault -->
+      <div class="glass-card cyber-card" style="padding: 28px; margin-top: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.6rem; margin-bottom: 4px;">📂 Cryptographic Document Vault</h2>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Title deeds, appraisals, and insurance policies anchored on IPFS with verifiable SHA-256 signatures</p>
+          </div>
+          <span class="neon-tag neon-tag--cyan">F-08 Attested</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="padding: 16px 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div style="font-weight: 700; color: #FFF; font-size: 1rem;">Title Deed & Beneficial Encumbrance Certificate</div>
+              <div style="font-family: monospace; font-size: 0.75rem; color: var(--neon-cyan); margin-top: 4px;">SHA-256: 0x8fa3c79a94112e4df8b53298a0c2014798e4f1a26d17b5e43a910e543bca9810</div>
+            </div>
+            <button class="neon-tag neon-tag--emerald" onclick="verifyDocHash('Title Deed', '0x8fa3c79a94112e4df8b53298a0c2014798e4f1a26d17b5e43a910e543bca9810')" style="cursor: pointer;">✓ Verify On-Chain Match</button>
+          </div>
+          <div style="padding: 16px 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div style="font-weight: 700; color: #FFF; font-size: 1rem;">Certified Appraisal Valuation Report (CBRE)</div>
+              <div style="font-family: monospace; font-size: 0.75rem; color: var(--neon-cyan); margin-top: 4px;">SHA-256: 0x34b2c19a84f321908ef1240a9c8b74103984afcb612984e751a029384bcdae41</div>
+            </div>
+            <button class="neon-tag neon-tag--emerald" onclick="verifyDocHash('CBRE Valuation', '0x34b2c19a84f321908ef1240a9c8b74103984afcb612984e751a029384bcdae41')" style="cursor: pointer;">✓ Verify On-Chain Match</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- F-14 StayCredits Timeshare Booking -->
+      <div class="glass-card cyber-card" style="padding: 28px; margin-top: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.6rem; margin-bottom: 4px;">🏖️ Stay-Token: Fractional Timeshare Booking</h2>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Token holders earn stay credits to redeem complimentary nights at this property</p>
+          </div>
+          <span class="neon-tag neon-tag--purple">StayCredits.sol (F-14)</span>
+        </div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+          <div style="padding: 14px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;">
+            <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">YOUR STAY CREDITS</span>
+            <span style="font-size: 1.4rem; font-weight: 800; color: var(--neon-purple); font-family: monospace;">4 Credits</span>
+          </div>
+          <div style="padding: 14px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;">
+            <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">NEXT AVAILABLE DATES</span>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #FFF;">Nov 14 - Nov 18, 2026</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Demo only: no booking or StayCredit transaction occurred.')">
+          Simulate Booking
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- F-16 AI Deal Analyst Floating Trigger & Drawer -->
+  <button class="ai-floating-trigger" onclick="toggleAIAnalyst()">
+    <span>🤖</span> Chat With AI Deal Analyst
+  </button>
+
+  <div class="ai-analyst-panel" id="ai-analyst-drawer">
+    <div style="padding: 20px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.5rem;">🤖</span>
+        <div>
+          <div style="font-weight: 700; color: #FFF; font-size: 0.95rem;">TokenProp Rule-Based Demo Analyst</div>
+          <div style="font-size: 0.75rem; color: var(--neon-cyan);">Deterministic mock data; not an AI service</div>
+        </div>
+      </div>
+      <button onclick="toggleAIAnalyst()" style="background: none; border: none; color: #FFF; font-size: 1.3rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <div id="ai-chat-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;">
+      <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 12px; padding: 14px; font-size: 0.88rem; line-height: 1.5;">
+        Hello! I'm the rule-based demo analyst. Ask about this property's simulated estimates and alerts; I do not verify on-chain documents.
+      </div>
+    </div>
+
+    <div style="padding: 14px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px;">
+      <input type="text" id="ai-chat-input" placeholder="e.g. What is the environmental risk?" style="flex: 1; padding: 10px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #FFF; font-size: 0.85rem;" onkeypress="if(event.key === 'Enter') sendAIMessage()">
+      <button class="btn btn-primary" onclick="sendAIMessage()" style="padding: 10px 16px;">Ask</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</div>
+          <p>Democratizing real estate investment through blockchain tokenization and community governance.</p>
+        </div>
+        <div class="footer-col"><h4>Platform</h4><a href="marketplace.html">Marketplace</a><a href="dao.html">Governance</a><a href="dashboard.html">Dashboard</a></div>
+        <div class="footer-col"><h4>Resources</h4><a href="#">Documentation</a><a href="#">Smart Contracts</a><a href="#">Whitepaper</a></div>
+        <div class="footer-col"><h4>Community</h4><a href="#">Discord</a><a href="#">Twitter / X</a><a href="#">Telegram</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TokenProp. All rights reserved.</span>
+        <div class="footer-socials"><a href="#">𝕏</a><a href="#">💬</a><a href="#">🐙</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- KYC Modal -->
+  <div class="kyc-modal-overlay" id="kyc-modal-overlay">
+    <div class="kyc-modal">
+      <!-- (Simplified header for brevity in other pages, same functionality) -->
+      <div class="kyc-modal-head">
+        <div class="kyc-modal-title-row">
+          <div class="kyc-modal-title">
+            <div class="kyc-modal-title-icon">🏛️</div>
+            <div>
+              <h2>Aadhaar KYC</h2>
+              <div class="kyc-modal-subtitle">Secure Off-chain Verification</div>
+            </div>
+          </div>
+          <button class="kyc-close-btn" onclick="closeKYCModal()">&times;</button>
+        </div>
+        <div class="kyc-steps-indicator"><div class="kyc-step-dot active">1</div><div class="kyc-step-line"></div><div class="kyc-step-dot">2</div><div class="kyc-step-line"></div><div class="kyc-step-dot">3</div></div>
+      </div>
+      <div class="kyc-modal-body">
+        <div class="kyc-step-panel active" id="kyc-step-1">
+          <div class="kyc-wallet-info"><span class="wallet-label">Connected:</span><span class="wallet-addr" id="kyc-wallet-addr">—</span></div>
+          <div class="kyc-demo-notice" style="padding: 12px; margin-bottom: 14px; border: 1px solid rgba(255,169,48,.25); border-radius: 10px; color: #ffcd80; font-size: .82rem;">Demo only: do not enter Aadhaar or other identity numbers. No real identity verification or message delivery occurs.</div>
+          <div class="kyc-email-group"><label>Email Address (Optional)</label><input type="email" class="kyc-email-input" id="kyc-email" placeholder="you@example.com"><div class="kyc-input-hint">No email will be sent; a demo OTP is shown on screen.</div></div>
+          <button class="kyc-action-btn kyc-action-btn--send" id="kyc-send-btn" onclick="sendKYCOTP()">📩 Send OTP</button>
+        </div>
+        <div class="kyc-step-panel" id="kyc-step-2">
+          <div class="kyc-otp-info" id="kyc-otp-info">OTP sent</div>
+          <div class="kyc-otp-container" id="kyc-otp-inputs">
+            <input type="text" class="kyc-otp-digit" maxlength="1"><input type="text" class="kyc-otp-digit" maxlength="1"><input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1"><input type="text" class="kyc-otp-digit" maxlength="1"><input type="text" class="kyc-otp-digit" maxlength="1">
+          </div>
+          <div class="kyc-resend-row"><button class="kyc-resend-btn" id="kyc-resend-btn" onclick="resendOTP()" disabled>Resend <span id="kyc-resend-timer"></span></button></div>
+          <button class="kyc-action-btn kyc-action-btn--verify" id="kyc-verify-btn" onclick="verifyKYCOTP()" disabled>✅ Verify & Whitelist</button>
+        </div>
+        <div class="kyc-step-panel" id="kyc-step-3">
+          <div class="kyc-success"><div class="kyc-success-icon">✓</div><h3>Identity Verified!</h3><p id="kyc-success-msg">Your wallet has been whitelisted on Polygon.</p><a href="#" class="kyc-tx-link" id="kyc-tx-hash" target="_blank">0x...</a><button class="kyc-success-done-btn" onclick="closeKYCModal()">Continue</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/mock-api.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/kyc.js"></script>
+  <script src="js/insurance.js"></script>
+  <script src="js/maintenance.js"></script>
+  <script src="js/property.js"></script>
+  <script>
+    // Live Streaming Rent Counter
+    let rentStream = 0.00412890;
+    setInterval(() => {
+      rentStream += 0.00000042;
+      const el = document.getElementById('live-stream-counter');
+      if (el) el.innerText = rentStream.toFixed(8) + " POL";
+    }, 100);
+
+    // AI Deal Analyst Drawer
+    function toggleAIAnalyst() {
+      const drawer = document.getElementById('ai-analyst-drawer');
+      drawer.classList.toggle('open');
+    }
+
+    async function sendAIMessage() {
+      const input = document.getElementById('ai-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('ai-chat-messages');
+      container.innerHTML += `
+        <div style="background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px; font-size: 0.88rem; align-self: flex-end; max-width: 85%;">
+          ${text}
+        </div>
+      `;
+      input.value = "";
+      container.scrollTop = container.scrollHeight;
+
+      // Loading bubble
+      const loadingId = "ai-loading-" + Date.now();
+      container.innerHTML += `
+        <div id="${loadingId}" style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 12px; padding: 12px; font-size: 0.85rem; color: var(--neon-cyan);">
+          Analysing property documentation and on-chain metrics...
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+
+      try {
+        const res = await fetch("/api/ai-analyst/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ propertyId: 1, query: text })
+        });
+        const data = await res.json();
+        document.getElementById(loadingId).remove();
+        const answer = document.createElement("div");
+        answer.style.cssText = "background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.2);border-radius:12px;padding:14px;font-size:.88rem;line-height:1.5";
+        const answerText = document.createElement("div");
+        answerText.textContent = data.answer;
+        const citations = document.createElement("div");
+        citations.style.marginTop = "8px";
+        (data.citations || []).forEach(citation => {
+          const tag = document.createElement("span");
+          tag.textContent = "📄 " + citation;
+          tag.style.cssText = "display:inline-block;margin:6px 4px 0 0;font-size:.72rem;padding:2px 8px;background:rgba(0,240,255,.15);border-radius:4px;color:var(--neon-cyan)";
+          citations.appendChild(tag);
+        });
+        const disclaimer = document.createElement("div");
+        disclaimer.textContent = "⚠️ " + data.disclaimer;
+        disclaimer.style.cssText = "font-size:.72rem;color:var(--text-muted);margin-top:8px;border-top:1px dashed rgba(255,255,255,.1);padding-top:6px";
+        answer.append(answerText, citations, disclaimer);
+        container.appendChild(answer);
+      } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        const errorMessage = document.createElement("div");
+        errorMessage.textContent = "Demo analyst unavailable: " + err.message;
+        container.appendChild(errorMessage);
+      }
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function verifyDocHash(title, hash) {
+      alert("✅ Cryptographic Verification Successful!\n\nDocument: " + title + "\nOn-Chain Hash: " + hash + "\nStatus: Immutable & Attested by PropertyRegistry.sol");
+    }
+  </script>
+</body>
+</html>

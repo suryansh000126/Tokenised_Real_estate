@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — TokenProp</title>
+  <meta name="description" content="View your portfolio, token holdings, governance score, and activity.">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/kyc.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="dao.html">Governance</a></li>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="transparency.html">Transparency</a></li>
+        <li><a href="learn.html">Learn</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-wallet" id="wallet-btn" onclick="connectWallet()"><span class="wallet-dot"></span> 0x71C7...3aF9</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard-page">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="dashboard-header">
+        <h1 class="dash-greeting">Welcome back, <span class="text-gradient-green" id="dash-greeting-name">Demo Investor</span> 👋</h1>
+        <p class="dash-sub">Here's your tokenized real estate portfolio overview</p>
+      </div>
+
+      <!-- Overview Cards -->
+      <div class="portfolio-overview">
+        <div class="overview-card glass-card">
+          <div class="ov-label">📊 Portfolio Value</div>
+          <div class="ov-value" id="ov-total-value">$0</div>
+          <span class="ov-change positive" id="ov-gain">+0%</span>
+        </div>
+        <div class="overview-card glass-card">
+          <div class="ov-label">🪙 Total Tokens</div>
+          <div class="ov-value" id="ov-total-tokens">0</div>
+          <span class="ov-change positive"><span id="ov-properties">0</span> properties</span>
+        </div>
+        <div class="overview-card glass-card">
+          <div class="ov-label">💰 Monthly Income</div>
+          <div class="ov-value" id="ov-monthly">$0</div>
+          <span class="ov-change positive" id="ov-monthly-change">rental yield</span>
+        </div>
+        <div class="overview-card glass-card">
+          <div class="ov-label">⚡ POI Score</div>
+          <div class="ov-value" id="ov-poi">0/100</div>
+          <span class="ov-change positive" id="ov-rank">—</span>
+        </div>
+      </div>
+
+      <!-- Highlight Banners: Streaming Rent & KYC -->
+      <div class="highlight-banners">
+        <!-- Live Streaming Rent -->
+        <div class="overview-card glass-card stream-card">
+          <div class="stream-header">
+            <div class="ov-label">Live Streaming Rent</div>
+            <span class="pulse-beacon--green"></span>
+          </div>
+          <div class="stream-value" id="dash-stream-val">0.04821040 POL</div>
+          <button class="btn-claim" onclick="alert('Demo only: no rent claim or blockchain transaction occurred.')">Claim Demo Rent</button>
+        </div>
+
+        <!-- KYC Card -->
+        <div class="overview-card glass-card kyc-card" id="kyc-verify-card">
+          <div class="kyc-card-header">
+            <div class="kyc-card-icon">🛡️</div>
+            <div>
+              <h3 class="kyc-card-title">Demo Identity Verification</h3>
+              <p class="kyc-card-sub">Local-only simulation</p>
+            </div>
+          </div>
+          <div class="kyc-card-hint">Complete the demo OTP flow to unlock simulated voting</div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="dashboard-grid">
+
+        <!-- Main Column -->
+        <div class="dashboard-main">
+
+          <!-- Portfolio Chart -->
+          <div class="chart-card glass-card">
+            <h2>📈 Portfolio Value Over Time</h2>
+            <p class="chart-sub">Track your simulated investment growth</p>
+            <div class="chart-canvas">
+              <canvas id="portfolio-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Portfolio Optimizer -->
+          <div class="optimizer-card glass-card">
+            <div class="optimizer-header">
+              <div>
+                <h2>🧠 Portfolio Optimiser & What-If Simulator</h2>
+                <p>Simulate rebalancing your portfolio to optimize yield & reduce risk</p>
+              </div>
+              <span class="neon-tag neon-tag--cyan">Algorithmic Engine</span>
+            </div>
+
+            <div class="sliders-grid">
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span>Skyline Residences (NY)</span>
+                  <span id="slider-val-1" style="color:var(--accent-blue)">50%</span>
+                </div>
+                <input type="range" class="slider-cyber" id="alloc-slider-1" min="0" max="100" value="50" oninput="runPortfolioSimulation()">
+              </div>
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span>Oceanview Villa (Miami)</span>
+                  <span id="slider-val-2" style="color:var(--accent-purple)">30%</span>
+                </div>
+                <input type="range" class="slider-cyber" id="alloc-slider-2" min="0" max="100" value="30" oninput="runPortfolioSimulation()">
+              </div>
+              <div class="slider-group">
+                <div class="slider-label">
+                  <span>Austin Tech Campus (TX)</span>
+                  <span id="slider-val-3" style="color:var(--accent-gold)">20%</span>
+                </div>
+                <input type="range" class="slider-cyber" id="alloc-slider-3" min="0" max="100" value="20" oninput="runPortfolioSimulation()">
+              </div>
+            </div>
+
+            <div class="sim-output">
+              <div>
+                <div class="sim-metric-label">Expected Yield</div>
+                <div class="sim-metric-value" id="sim-yield" style="color:var(--accent-green)">8.59%</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Risk Score</div>
+                <div class="sim-metric-value" id="sim-risk">23 / 100</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Diversification</div>
+                <div class="sim-metric-value" id="sim-div" style="color:var(--accent-blue)">82 / 100</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Rating</div>
+                <div class="sim-metric-value" id="sim-rating" style="color:var(--accent-green);font-size:.92rem">High Diversification ✓</div>
+              </div>
+            </div>
+            <div class="sim-recommendation" id="sim-rec">
+              Optimal risk-adjusted configuration across residential and hospitality classes.
+            </div>
+          </div>
+
+          <!-- Soulbound Badges -->
+          <div class="badges-card glass-card">
+            <div class="badges-header">
+              <div>
+                <h2>🏆 Soulbound Reputation Badges (ERC-5192)</h2>
+                <p>Non-transferable on-chain achievements multiplying your POI governance weight</p>
+              </div>
+              <span class="neon-tag neon-tag--amber">Reputation: 140 PTS</span>
+            </div>
+            <div class="badges-grid">
+              <div class="sbt-badge">
+                <div class="sbt-icon">🥇</div>
+                <div class="sbt-name">First Investment</div>
+                <div class="sbt-info">+50 Points · Verified</div>
+              </div>
+              <div class="sbt-badge">
+                <div class="sbt-icon">💰</div>
+                <div class="sbt-name">Rent Collector</div>
+                <div class="sbt-info">+40 Points · 12 Claims</div>
+              </div>
+              <div class="sbt-badge">
+                <div class="sbt-icon">🗳️</div>
+                <div class="sbt-name">Active Voter</div>
+                <div class="sbt-info">+30 Points · 6 Votes</div>
+              </div>
+              <div class="sbt-badge">
+                <div class="sbt-icon">🛠️</div>
+                <div class="sbt-name">Bounty Builder</div>
+                <div class="sbt-info">+20 Points · 1 Task</div>
+              </div>
+              <div class="sbt-badge">
+                <div class="sbt-icon">🛡️</div>
+                <div class="sbt-name">Insurance Guardian</div>
+                <div class="sbt-info purple">Active Q4 Coverage</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Holdings -->
+          <div class="holdings-section">
+            <h2>🏠 Your Holdings</h2>
+            <div class="holdings-list" id="holdings-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="dashboard-sidebar">
+
+          <!-- Governance Score -->
+          <div class="gov-score-card glass-card">
+            <h3>⚡ Governance Score</h3>
+            <div class="gov-mini-ring">
+              <svg viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="govGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#F5A623"/>
+                    <stop offset="100%" style="stop-color:#00D4A1"/>
+                  </linearGradient>
+                </defs>
+                <circle class="ring-bg" cx="50" cy="50" r="45"/>
+                <circle class="ring-fill" cx="50" cy="50" r="45"/>
+              </svg>
+              <div class="gov-mini-score" id="gov-score-num">0</div>
+            </div>
+            <div class="gov-score-detail">
+              <div class="gs-rank" id="gov-rank">Rank <span>#—</span> of —</div>
+            </div>
+            <div style="text-align:center;margin-top:16px">
+              <a href="dao.html" class="btn btn-secondary btn-sm" style="font-size:.82rem;padding:9px 16px;">View Governance →</a>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="activity-card glass-card">
+            <h3>📋 Recent Activity</h3>
+            <div class="timeline" id="timeline-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Monthly Income -->
+          <div class="income-card glass-card">
+            <h3>💵 Monthly Income</h3>
+            <div id="income-body">
+              <div class="income-amount" id="income-amount">$0</div>
+              <div class="income-sub">Estimated monthly rental income (simulated)</div>
+            </div>
+          </div>
+
+          <!-- Property Alerts -->
+          <div class="alerts-card glass-card">
+            <h3>🚨 Property Alerts</h3>
+            <div id="dash-insurance-alerts">
+              <div class="no-alerts">Loading alerts...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="nav-brand"><span class="brand-icon">🏛️</span> TokenProp</div><p>Democratizing real estate investment.</p></div>
+        <div class="footer-col"><h4>Platform</h4><a href="marketplace.html">Marketplace</a><a href="dao.html">Governance</a><a href="dashboard.html">Dashboard</a></div>
+        <div class="footer-col"><h4>Resources</h4><a href="#">Docs</a><a href="#">Whitepaper</a></div>
+        <div class="footer-col"><h4>Community</h4><a href="#">Discord</a><a href="#">Twitter</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 TokenProp.</span><div class="footer-socials"><a href="#">𝕏</a><a href="#">💬</a></div></div>
+    </div>
+  </footer>
+
+  <!-- KYC Modal -->
+  <div class="kyc-modal-overlay" id="kyc-modal-overlay">
+    <div class="kyc-modal">
+      <div class="kyc-modal-head">
+        <div class="kyc-modal-title-row">
+          <div class="kyc-modal-title">
+            <div class="kyc-modal-title-icon">🏛️</div>
+            <div>
+              <h2>Aadhaar KYC</h2>
+              <div class="kyc-modal-subtitle">Secure Off-chain Verification</div>
+            </div>
+          </div>
+          <button class="kyc-close-btn" onclick="closeKYCModal()">&times;</button>
+        </div>
+        <div class="kyc-steps-indicator">
+          <div class="kyc-step-dot active" id="kyc-dot-1">1</div>
+          <div class="kyc-step-line" id="kyc-line-1"></div>
+          <div class="kyc-step-dot" id="kyc-dot-2">2</div>
+          <div class="kyc-step-line" id="kyc-line-2"></div>
+          <div class="kyc-step-dot" id="kyc-dot-3">3</div>
+        </div>
+      </div>
+
+      <div class="kyc-modal-body">
+        <!-- Step 1 -->
+        <div class="kyc-step-panel active" id="kyc-step-1">
+          <div class="kyc-wallet-info">
+            <span class="wallet-label">Connected:</span>
+            <span class="wallet-addr" id="kyc-wallet-addr">—</span>
+          </div>
+          <div class="kyc-demo-notice" style="padding:12px;margin-bottom:14px;border:1px solid rgba(255,169,48,.25);border-radius:10px;color:#ffcd80;font-size:.82rem;">
+            Demo only: do not enter Aadhaar or other identity numbers. No real identity verification or message delivery occurs.
+          </div>
+          <div class="kyc-email-group">
+            <label>Email Address (Optional)</label>
+            <input type="email" class="kyc-email-input" id="kyc-email" placeholder="you@example.com">
+            <div class="kyc-input-hint">Optional. No email will be sent; a demo OTP is shown on screen.</div>
+          </div>
+          <button class="kyc-action-btn kyc-action-btn--send" id="kyc-send-btn" onclick="sendKYCOTP()">📩 Send OTP</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="kyc-step-panel" id="kyc-step-2">
+          <div class="kyc-otp-info" id="kyc-otp-info">OTP sent to your registered mobile/email</div>
+          <div class="kyc-otp-container" id="kyc-otp-inputs">
+            <input type="text" class="kyc-otp-digit" maxlength="1" autocomplete="one-time-code">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+            <input type="text" class="kyc-otp-digit" maxlength="1">
+          </div>
+          <div class="kyc-input-error" id="kyc-otp-error" style="text-align:center"></div>
+          <div class="kyc-resend-row">
+            Didn't receive it?
+            <button class="kyc-resend-btn" id="kyc-resend-btn" onclick="resendOTP()" disabled>Resend <span id="kyc-resend-timer"></span></button>
+          </div>
+          <button class="kyc-action-btn kyc-action-btn--verify" id="kyc-verify-btn" onclick="verifyKYCOTP()" disabled>
+            ✅ Complete Demo Verification
+          </button>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="kyc-step-panel" id="kyc-step-3">
+          <div class="kyc-success">
+            <div class="kyc-success-icon">✓</div>
+            <h3>Identity Verified!</h3>
+            <p id="kyc-success-msg">Your wallet has been whitelisted on Polygon.</p>
+            <a href="#" class="kyc-tx-link" id="kyc-tx-hash" target="_blank">0x...</a>
+            <button class="kyc-success-done-btn" onclick="closeKYCModal()">Continue to Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/mock-api.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/kyc.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
